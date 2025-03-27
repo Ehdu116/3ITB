@@ -52,7 +52,7 @@ export default function LoginPage() {
         console.table("userId got from the email: ", userId);
         setEmail("");
         setPassword("");
-        navigate("/ViewProductPage", {
+        navigate("/ViewProjectPage", {
           state: {
             isUserAdmin: response.data.role === "admin",
             userId: user.id,

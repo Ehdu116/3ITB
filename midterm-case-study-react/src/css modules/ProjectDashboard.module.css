@@ -1,0 +1,18 @@
+.header__Title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  .header__userIcon {
+    cursor: pointer;
+  }
+  
+  .adminActions {
+    display: flex;
+    gap: 10px; /* Adds spacing between buttons */
+  }
+    
+  
