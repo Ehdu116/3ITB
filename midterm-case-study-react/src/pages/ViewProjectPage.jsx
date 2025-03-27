@@ -14,12 +14,10 @@ import ProjectList from "../components/ProjectList.jsx";
 export default function ViewProjectPage() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
   const [userId, setUserId] = useState(null);
   const location = useLocation();
 
   useEffect(() => {
-    setIsUserAdmin(location.state?.isUserAdmin);
     setUserId(location.state?.userId);
   }, [location]);
 
@@ -83,17 +81,14 @@ export default function ViewProjectPage() {
           </Dropdown>
         </div>
 
-        <h2>{isUserAdmin ? "Admin Dashboard" : "Project List"}</h2>
+        <h2>Project List</h2>
 
-        {isUserAdmin && (
-  <div className={Style.adminActions}>
-    <Button name="Create Project" onClick={handleCreateProject} />
-    <Button name="Assign Tasks" onClick={handleAssignTasks} />
-    <Button name="Track Progress" onClick={handleTrackProgress} />
-    <Button name="View Reports" onClick={handleViewReports} />
-  </div>
-)}
-
+        <div className={Style.adminActions}>
+          <Button name="Create Project" onClick={handleCreateProject} />
+          <Button name="Assign Tasks" onClick={handleAssignTasks} />
+          <Button name="Track Progress" onClick={handleTrackProgress} />
+          <Button name="View Reports" onClick={handleViewReports} />
+        </div>
 
         <ProjectList projects={projects} />
       </header>
