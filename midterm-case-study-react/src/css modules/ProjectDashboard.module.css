@@ -1,18 +1,86 @@
-.header__Title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  
-  .header__userIcon {
-    cursor: pointer;
-  }
-  
-  .adminActions {
-    display: flex;
-    gap: 10px; /* Adds spacing between buttons */
-  }
-    
-  
+.container {
+  display: flex;
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100%;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebarMenu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarMenu li {
+  cursor: pointer;
+  padding: 12px;
+  margin: 5px 0;
+  border-radius: 5px;
+  transition: background 0.3s, transform 0.2s;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebarMenu li:hover {
+  background-color: #34495e;
+  transform: scale(1.05);
+}
+
+/* Main Content */
+.mainContent {
+  flex-grow: 1;
+  padding: 40px;
+  margin-left: 250px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: white;
+}
+
+.project-list {
+  margin-top: 20px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Icons */
+.sidebarMenu li svg {
+  color: #ecf0f1;
+}
