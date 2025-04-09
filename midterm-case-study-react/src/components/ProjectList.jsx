@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function ProjectList({ projects }) {
+const ProjectList = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    axios.get("/projects").then(res => setProjects(res.data));
+  }, []);
+
   return (
     <div>
-      <h3>Project List</h3>
+      <h2>All Projects</h2>
+      <Link to="/create-project">➕ Create Project</Link>
       <ul>
-        {projects.length > 0 ? (
-          projects.map((project) => (
-            <li key={project.id}>
-              <strong>{project.name}</strong> - {project.description} (Budget: ${project.budget})
-            </li>
-          ))
-        ) : (
-          <p>No projects found.</p>
-        )}
+        {projects.map(p => (
+          <li key={p.id}>
+            <Link to={`/projects/${p.id}/tasks`}>{p.title}</Link>
+          </li>
+        ))}
       </ul>
     </div>
   );
-}
+};
+
+export default ProjectList;

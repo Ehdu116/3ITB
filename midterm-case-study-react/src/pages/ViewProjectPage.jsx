@@ -16,17 +16,22 @@ export default function ViewProjectPage() {
   const [userId, setUserId] = useState(null);
   const location = useLocation();
 
+  // ✅ Grab userId from router state (kept)
   useEffect(() => {
     setUserId(location.state?.userId);
   }, [location]);
 
+  // ✅ Fetch project list with auth (kept and clarified)
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/projects", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((response) => response.json())
-      .then((data) => setProjects(data))
-      .catch((error) => console.error("Error fetching data", error));
+      .then((data) => {
+        console.log("✅ Projects fetched:", data);
+        setProjects(data);
+      })
+      .catch((error) => console.error("❌ Error fetching projects:", error));
   }, []);
 
   function handleLogout() {
@@ -65,11 +70,6 @@ export default function ViewProjectPage() {
       <main className={Style.mainContent}>
         <header className={Style.header}>
           <h1>Project Management System</h1>
-          <Dropdown className={Style.header__userIcon}>
-            <Dropdown.Toggle className={Style.iconBorder} variant="link" id="dropdown-basic">
-              <FontAwesomeIcon icon={faUser} size="lg" style={{ color: "#4470FE" }} />
-            </Dropdown.Toggle>
-          </Dropdown>
         </header>
 
         <h2>Project List</h2>

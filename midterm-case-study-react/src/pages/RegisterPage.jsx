@@ -30,6 +30,7 @@ export default function RegisterPage() {
         email,
         contact,
         password,
+        password_confirmation: confirmPassword,
       });
 
       setName("");
@@ -39,13 +40,24 @@ export default function RegisterPage() {
       navigate("/");
       setError("Registration Successful");
     } catch (error) {
-      console.log(error);
-      if (error.response.status === 400) {
-        setError("Invalid username or password");
+      console.error("Error:", error); // Log the full error for debugging
+    
+      if (error.response) {
+        // Handle different status codes
+        if (error.response.status === 400) {
+          setError("Invalid username or password");
+        } else {
+          setError(error.response.data?.message || "Registration failed");
+        }
+      } else if (error.request) {
+
+        setError("No response from server. Check your API.");
       } else {
-        setError("Registration failed");
+        // Other unexpected errors
+        setError("An unexpected error occurred.");
       }
     }
+    
   };
 
   const handleBackToLogin = () => {
