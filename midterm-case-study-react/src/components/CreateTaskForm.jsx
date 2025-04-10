@@ -1,55 +1,84 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import Styles from "../css modules/CreateTaskFormComponents.module.css"; // Import the correct CSS module
 
 const CreateTaskForm = ({ projectId, onTaskCreated }) => {
   const [title, setTitle] = useState("");
-  const [status, setStatus] = useState("todo");
-  const [priority, setPriority] = useState("medium");
-  const [assignedTo, setAssignedTo] = useState("");
-  const [users, setUsers] = useState([]);
+  const [status, setStatus] = useState("Not Started");
+  const [priority, setPriority] = useState("Low");
 
-  useEffect(() => {
-    axios.get("/users").then(res => setUsers(res.data));
-  }, []);
-
-  function handleCreateTask(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    axios.post("/tasks", {
+    
+    const taskData = {
       title,
       status,
       priority,
-      assigned_to: assignedTo,
-      project_id: projectId
-    }).then(() => {
-      setTitle("");
-      setStatus("todo");
-      setPriority("medium");
-      setAssignedTo("");
-      onTaskCreated();
-    });
-  }
+      project_id: projectId,
+    };
+
+    axios
+      .post("http://127.0.0.1:8000/api/tasks", taskData, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("authorization-token")}`,
+        },
+      })
+      .then((response) => {
+        console.log("Task Created:", response.data);
+        onTaskCreated(projectId); // Notify parent to refresh tasks
+        setTitle(""); // Clear the form
+        setStatus("Not Started");
+        setPriority("Low");
+      })
+      .catch((error) => {
+        console.error("Error creating task:", error);
+        alert("Failed to create task.");
+      });
+  };
 
   return (
-    <form onSubmit={handleCreateTask}>
-      <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Task title" required />
-      <select value={status} onChange={e => setStatus(e.target.value)}>
-        <option value="todo">To do</option>
-        <option value="in_progress">In Progress</option>
-        <option value="done">Done</option>
-      </select>
-      <select value={priority} onChange={e => setPriority(e.target.value)}>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <select value={assignedTo} onChange={e => setAssignedTo(e.target.value)}>
-        <option value="">Unassigned</option>
-        {users.map(user => (
-          <option value={user.id} key={user.id}>{user.name}</option>
-        ))}
-      </select>
-      <button type="submit">Create Task</button>
+    <form onSubmit={handleSubmit} className={Styles.formContainer}>
+      <div className={Styles.formGroup}>
+        <label htmlFor="title">Task Title</label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className={Styles.formInput}
+        />
+      </div>
+
+      <div className={Styles.formGroup}>
+        <label htmlFor="status">Status</label>
+        <select
+          id="status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className={Styles.formInput}
+        >
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+
+      <div className={Styles.formGroup}>
+        <label htmlFor="priority">Priority</label>
+        <select
+          id="priority"
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+          className={Styles.formInput}
+        >
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <button type="submit" className={Styles.submitButton}>Create Task</button>
     </form>
   );
 };

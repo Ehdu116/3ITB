@@ -6,7 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Style from "../css modules/ProjectDashboard.module.css";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPlus, faTasks, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPlus, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 // Components
 import ProjectList from "../components/ProjectList.jsx";
 
@@ -51,9 +51,6 @@ export default function ViewProjectPage() {
           <li onClick={() => handleNavigation("/create-project")}>
             <FontAwesomeIcon icon={faPlus} /> Create Project
           </li>
-          <li onClick={() => handleNavigation("/assign-tasks")}>
-            <FontAwesomeIcon icon={faTasks} /> Assign Tasks
-          </li>
           <li onClick={() => handleNavigation("/track-progress")}>
             <FontAwesomeIcon icon={faChartBar} /> Track Progress
           </li>
@@ -72,7 +69,6 @@ export default function ViewProjectPage() {
           <h1>Project Management System</h1>
         </header>
 
-        <h2>Project List</h2>
         <div className={Style.projectList}>
           <ProjectList projects={projects} />
         </div>
