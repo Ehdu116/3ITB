@@ -19,24 +19,28 @@ export default function CreateProjectPage({ onProjectCreated }) {
       return;
     }
 
+    // Post the new project to the API
     axios
       .post(
-        "http://127.0.0.1:8000/api/projects",
+        "http://127.0.0.1:8000/api/projects", // Make sure this URL matches your backend route
         {
-          name: projectName,
+          name: projectName, // Use 'name' here instead of 'title'
           description: projectDescription,
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
+            Authorization: `Bearer ${localStorage.getItem("authorization-token")}`, // Assuming you're using JWT or token auth
           },
         }
       )
       .then((response) => {
         console.log("Project Created:", response.data);
+        // Reset fields
         setProjectName("");
         setProjectDescription("");
+        // Update the parent component's state to reflect the new project
         onProjectCreated(response.data);
+        // Optionally navigate or stay on the current page
         navigate("/ViewProjectPage");
       })
       .catch((error) => {
@@ -49,6 +53,7 @@ export default function CreateProjectPage({ onProjectCreated }) {
     <section className={Styles.container}>
       <h1 className={Styles.title}>Create Project</h1>
 
+      {/* Project Name Input */}
       <label className={Styles.label}>Project Name:</label>
       <input
         type="text"
@@ -59,6 +64,7 @@ export default function CreateProjectPage({ onProjectCreated }) {
         required
       />
 
+      {/* Project Description Input */}
       <label className={Styles.label}>Project Description:</label>
       <textarea
         className={Styles.textarea}
@@ -68,6 +74,7 @@ export default function CreateProjectPage({ onProjectCreated }) {
         required
       />
 
+      {/* Buttons */}
       <div className={Styles.buttonGroup}>
         <Buttons name="Back" onClick={handleBack} />
         <Buttons name="Create Project" onClick={handleCreateProject} />

@@ -14,11 +14,10 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // To disable button during login attempt
   const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
-
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/users")
       .then((response) => {
@@ -27,9 +26,9 @@ export default function LoginPage() {
         } else {
           throw new Error(
             response.statusText +
-              " " +
-              response.status +
-              " The server has not found anything matching the Request-URI"
+            " " +
+            response.status +
+            " The server has not found anything matching the Request-URI"
           );
         }
       })
@@ -47,11 +46,12 @@ export default function LoginPage() {
     try {
       const user = users.find((user) => user.email === email);
       if (user) {
+        // User exists, get the user ID
         const userId = user.id;
         const response = await axios.post("/login", { email, password });
-
+        // store the autorization token
         if (response.status === 200) {
-          localStorage.setItem("authorization-token", response.data.token);
+          localStorage.setItem("authorization-token", response.data.token)
           console.table("userId got from the email: ", userId);
           setEmail("");
           setPassword("");
@@ -64,6 +64,7 @@ export default function LoginPage() {
           });
         }
       } else {
+        // User does not exist, display error message
         setError("Email does not exist");
       }
     } catch (error) {
@@ -94,7 +95,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                setError("");
+                setError(""); // Reset error when email changes
               }}
               required
             />
@@ -110,7 +111,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                setError("");
+                setError(""); // Reset error when password changes
               }}
               required
             />
@@ -118,20 +119,19 @@ export default function LoginPage() {
           <Button
             type="submit"
             className="btn btn-primary w-50 mt-2"
-            disabled={loading}
+            disabled={loading} // Disable button when loading
           >
             {loading ? "Logging In..." : "Log In"}
           </Button>
         </form>
-
         <Container fluid className="d-flex mt-3 justify-content-center">
-          <p className="me-2">Don't have an account?</p>
+          <p>Don't have an account?</p>
           <Button
             variant="link"
             className="p-0 m-0 align-text-top"
             onClick={handleNavigateRegister}
           >
-            Register
+            <p>Register</p>
           </Button>
         </Container>
       </div>

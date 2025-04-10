@@ -6,13 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Style from "../css modules/ProjectDashboard.module.css";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faPlus,
-  faTasks,
-  faChartBar,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPlus, faTasks, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 // Components
 import ProjectList from "../components/ProjectList.jsx";
 
@@ -22,15 +16,15 @@ export default function ViewProjectPage() {
   const [userId, setUserId] = useState(null);
   const location = useLocation();
 
+  // ✅ Grab userId from router state (kept)
   useEffect(() => {
     setUserId(location.state?.userId);
   }, [location]);
 
+  // ✅ Fetch project list with auth (kept and clarified)
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/projects", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
-      },
+      headers: { Authorization: `Bearer ${localStorage.getItem("authorization-token")}` },
     })
       .then((response) => response.json())
       .then((data) => {
