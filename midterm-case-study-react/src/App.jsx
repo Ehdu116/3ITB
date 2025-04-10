@@ -15,7 +15,14 @@ export default function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/RegisterPage" element={<RegisterPage />} />
         <Route path="/ViewProjectPage" element={<ViewProjectPage />} />
-        <Route path="/create-project" element={<CreateProjectPage />} />
+        <Route
+          path="/create-project"
+          element={
+            <CreateProjectPage
+              onProjectCreated={() => console.log("Hurray! project is created")}
+            />
+          }
+        />
       </Routes>
     </div>
   );

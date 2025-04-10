@@ -28,7 +28,13 @@ class TaskController extends Controller
     // Get all tasks
     public function index()
     {
-        return Task::with('project', 'assignedUser')->get();
+        $tasks = Task::with('project', 'assignedUser')->get();
+
+        if ($tasks->isEmpty()) {
+            return response()->json(["message" => "No tasks found"], 200);
+        } else {
+            return response()->json($tasks, 200);
+        }
     }
 
     // Get a single task by ID

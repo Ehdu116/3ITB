@@ -6,7 +6,11 @@ const ProjectList = () => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    axios.get("/projects").then(res => setProjects(res.data));
+    axios.get("http://127.0.0.1:8000/api/projects", {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem("authorization-token")}`
+      }
+    }).then(res => setProjects(res.data));
   }, []);
 
   return (
@@ -16,7 +20,7 @@ const ProjectList = () => {
       <ul>
         {projects.map(p => (
           <li key={p.id}>
-            <Link to={`/projects/${p.id}/tasks`}>{p.title}</Link>
+            <Link to={`/projects/${p.id}/tasks`}>{p.name}</Link>
           </li>
         ))}
       </ul>
