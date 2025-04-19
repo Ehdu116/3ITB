@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Task;
@@ -9,22 +11,23 @@ class TaskController extends Controller
     // Store a new task
     public function store(Request $request)
     {
-        // Validate the incoming request
+        // Debugging output
+        \Log::debug('Request data:', $request->all());
+    
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
-            'status' => 'required|in:To Do,In Progress,Done',
-            'priority' => 'required|in:High,Medium,Low',
+            'status' => 'required|in:Not Started,In Progress,Completed',
+            'priority' => 'required|in:Low,Medium,High',
             'project_id' => 'required|exists:projects,id',
             'assigned_to' => 'nullable|exists:users,id',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 400);
         }
-
-        // Create the new task
+    
         $task = Task::create([
             'project_id' => $request->input('project_id'),
             'title' => $request->input('title'),
@@ -33,10 +36,20 @@ class TaskController extends Controller
             'priority' => $request->input('priority'),
             'assigned_to' => $request->input('assigned_to'),
         ]);
-
+    
         return response()->json([
             'message' => 'Task created successfully!',
             'task' => $task
         ], 201);
     }
+    
+    public function getTasksForProject($projectId)
+    {
+        // This loads the tasks and the user assigned to each task in one go (to avoid extra database queries)
+        $tasks = Task::where('project_id', $projectId)->with('assignedUser')->get();
+        return response()->json($tasks);
+    }
+    
+
+    
 }

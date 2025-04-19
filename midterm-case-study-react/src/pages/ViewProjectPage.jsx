@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-// Bootstrap
-import Dropdown from "react-bootstrap/Dropdown";
+
 // CSS styles
 import Style from "../css modules/ProjectDashboard.module.css";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faPlus, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 // Components
 import ProjectList from "../components/ProjectList.jsx";
 

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Buttons from "../components/Button.jsx"; // Assuming you have a Button component
 import Styles from "../css modules/EditProjectPage.module.css"; // Assuming this CSS file exists
 import axios from "axios";
 
-export default function EditProjectPage({ projectId, onProjectUpdated }) {
+export default function EditProjectPage({ onProjectUpdated }) {
+  const { id: projectId } = useParams();
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -90,9 +91,14 @@ export default function EditProjectPage({ projectId, onProjectUpdated }) {
 
       {/* Buttons */}
       <div className={Styles.buttonGroup}>
-        <Buttons name="Back" onClick={handleBack} />
-        <Buttons name="Update Project" onClick={handleUpdateProject} />
-      </div>
+  <Buttons name="Back" onClick={handleBack} />
+  <Buttons
+    name="Update Project"
+    onClick={handleUpdateProject}
+    className={Styles.darkButton} // Apply dark button style here
+  />
+</div>
+
     </section>
   );
 }

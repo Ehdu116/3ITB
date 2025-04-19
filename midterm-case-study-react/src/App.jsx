@@ -8,6 +8,7 @@ import ViewProjectPage from "./pages/ViewProjectPage";
 import CreateProjectPage from "./pages/CreateProjectPage";
 import DeleteProjectPage from "./pages/DeleteProjectPage";
 import EditProjectPage from "./pages/EditProjectPage";
+import ProjectDetailsPage from "./pages/ProjectDetailsPage";
 
 export default function App() {
   // Define the handleProjectCreated callback
@@ -27,11 +28,15 @@ export default function App() {
         <Route path="/RegisterPage" element={<RegisterPage />} />
         <Route path="/ViewProjectPage" element={<ViewProjectPage />} />
         <Route path="/create-project" element={<CreateProjectPage onProjectCreated={handleProjectCreated} />} />
+        <Route path="/projects/:projectId" element={<ProjectDetailsPage />} /> {/* Add this route */}
         <Route
           path="/delete-project/:id"
           element={<DeleteProjectPage onProjectDeleted={handleProjectDeleted} />}
         />
-        <Route path="/projects/:id/edit" element={<EditProjectPage />} />
+        <Route path="/projects/:id/edit"
+          element={<EditProjectPage onProjectUpdated={() => console.log("Project updated!")} />}
+        />
+
       </Routes>
     </div>
   );

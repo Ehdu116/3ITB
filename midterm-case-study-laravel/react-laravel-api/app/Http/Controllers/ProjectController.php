@@ -46,7 +46,7 @@ class ProjectController extends Controller
     {
         // Validate incoming request
         $request->validate([
-            'title' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
 
@@ -55,7 +55,7 @@ class ProjectController extends Controller
         
         // Update the project
         $project->update([
-            'name' => $request->title,  // Update the 'name' field with 'title'
+            'name' => $request->name,  // Update the 'name' field with 'title'
             'description' => $request->description,
         ]);
 

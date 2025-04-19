@@ -44,7 +44,7 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
       })
       .then((response) => {
         console.log("Task Created:", response.data);
-        onTaskCreated(projectId); // Notify parent to refresh tasks
+        onTaskCreated(); // Notify parent to refresh tasks
         setTitle(""); // Clear the form
         setStatus("Not Started");
         setPriority("Low");
