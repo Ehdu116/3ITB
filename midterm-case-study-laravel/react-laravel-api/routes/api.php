@@ -18,6 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('projects/{id}', [ProjectController::class, 'update']); // Update an existing project
     Route::delete('projects/{id}', [ProjectController::class, 'destroy']); // Delete a project
 
+    Route::put('/projects/{id}/budget', [ProjectController::class, 'updateBudget']);
+
+
     // Task Routes (Authenticated)
     Route::post('/tasks', [TaskController::class, 'store']);  // Create a new task
     Route::get('/tasks', [TaskController::class, 'index']);   // Get all tasks

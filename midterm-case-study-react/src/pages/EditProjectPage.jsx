@@ -9,22 +9,27 @@ export default function EditProjectPage({ onProjectUpdated }) {
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
+  const [estimatedBudget, setEstimatedBudget] = useState('');
+  const [actualExpenditure, setActualExpenditure] = useState('');
 
   // Fetch the existing project data to pre-fill the form
   useEffect(() => {
-    axios.get(`http://127.0.0.1:8000/api/projects/${projectId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
-      },
-    })
-    .then((response) => {
-      const project = response.data;
-      setProjectName(project.name);
-      setProjectDescription(project.description);
-    })
-    .catch((error) => {
-      console.error("Error fetching project:", error);
-    });
+    axios
+      .get(`http://127.0.0.1:8000/api/projects/${projectId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
+        },
+      })
+      .then((response) => {
+        const project = response.data;
+        setProjectName(project.name);
+        setProjectDescription(project.description);
+        setEstimatedBudget(project.estimated_budget || '');  // Pre-fill estimated budget
+        setActualExpenditure(project.actual_expenditure || '');  // Pre-fill actual expenditure
+      })
+      .catch((error) => {
+        console.error("Error fetching project:", error);
+      });
   }, [projectId]);
 
   function handleBack() {
@@ -44,6 +49,8 @@ export default function EditProjectPage({ onProjectUpdated }) {
         {
           name: projectName,
           description: projectDescription,
+          estimated_budget: estimatedBudget,  // Send the updated budget
+          actual_expenditure: actualExpenditure,  // Send the updated actual expenditure
         },
         {
           headers: {
@@ -89,16 +96,33 @@ export default function EditProjectPage({ onProjectUpdated }) {
         required
       />
 
+      {/* Estimated Budget Input */}
+      <label className={Styles.label}>Estimated Budget:</label>
+      <input
+        type="number"
+        className={Styles.input}
+        value={estimatedBudget}
+        onChange={(e) => setEstimatedBudget(e.target.value)}
+        placeholder="Enter estimated budget"
+        required
+      />
+
+      {/* Actual Expenditure Input */}
+      <label className={Styles.label}>Actual Expenditure:</label>
+      <input
+        type="number"
+        className={Styles.input}
+        value={actualExpenditure}
+        onChange={(e) => setActualExpenditure(e.target.value)}
+        placeholder="Enter actual expenditure"
+        required
+      />
+
       {/* Buttons */}
       <div className={Styles.buttonGroup}>
-  <Buttons name="Back" onClick={handleBack} />
-  <Buttons
-    name="Update Project"
-    onClick={handleUpdateProject}
-    className={Styles.darkButton} // Apply dark button style here
-  />
-</div>
-
+        <Buttons name="Back" onClick={handleBack} />
+        <Buttons name="Update Project" onClick={handleUpdateProject} />
+      </div>
     </section>
   );
 }

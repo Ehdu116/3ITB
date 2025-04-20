@@ -8,6 +8,8 @@ export default function CreateProjectPage({ onProjectCreated }) {
   const navigate = useNavigate();
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
+  const [estimatedBudget, setEstimatedBudget] = useState(""); // State for estimated budget
+  const [actualExpenditure, setActualExpenditure] = useState(""); // State for actual expenditure
 
   function handleBack() {
     navigate("/ViewProjectPage");
@@ -26,6 +28,8 @@ export default function CreateProjectPage({ onProjectCreated }) {
         {
           name: projectName, // Use 'name' here instead of 'title'
           description: projectDescription,
+          estimated_budget: estimatedBudget, // Include the estimated budget
+          actual_expenditure: actualExpenditure, // Include the actual expenditure
         },
         {
           headers: {
@@ -38,6 +42,8 @@ export default function CreateProjectPage({ onProjectCreated }) {
         // Reset fields
         setProjectName("");
         setProjectDescription("");
+        setEstimatedBudget(""); // Reset estimated budget field
+        setActualExpenditure(""); // Reset actual expenditure field
         // Update the parent component's state to reflect the new project
         onProjectCreated(response.data);
         // Optionally navigate or stay on the current page
@@ -71,6 +77,28 @@ export default function CreateProjectPage({ onProjectCreated }) {
         value={projectDescription}
         onChange={(e) => setProjectDescription(e.target.value)}
         placeholder="Enter project description"
+        required
+      />
+
+      {/* Estimated Budget Input */}
+      <label className={Styles.label}>Estimated Budget:</label>
+      <input
+        type="number"
+        className={Styles.input}
+        value={estimatedBudget}
+        onChange={(e) => setEstimatedBudget(e.target.value)}
+        placeholder="Enter estimated budget"
+        required
+      />
+
+      {/* Actual Expenditure Input */}
+      <label className={Styles.label}>Actual Expenditure:</label>
+      <input
+        type="number"
+        className={Styles.input}
+        value={actualExpenditure}
+        onChange={(e) => setActualExpenditure(e.target.value)}
+        placeholder="Enter actual expenditure"
         required
       />
 
