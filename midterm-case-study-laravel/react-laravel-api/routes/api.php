@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('projects/{id}', [ProjectController::class, 'destroy']); // Delete a project
 
     Route::put('/projects/{id}/budget', [ProjectController::class, 'updateBudget']);
+    
 
 
     // Task Routes (Authenticated)

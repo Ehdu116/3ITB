@@ -12,6 +12,8 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'estimated_budget',
+        'actual_expenditure',
     ];
 
     // One project has many tasks

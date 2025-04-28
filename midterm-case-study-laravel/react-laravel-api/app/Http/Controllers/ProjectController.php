@@ -15,12 +15,16 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',  // 'title' from request, 'name' in the DB
             'description' => 'required|string',
+            'estimated_budget' => 'required|numeric',
+            'actual_expenditure' => 'required|numeric',
         ]);
 
         // Create the new project in the database
         $project = Project::create([
             'name' => $request->name,  // Store 'title' as 'name' in DB
             'description' => $request->description,
+            'estimated_budget' =>  $request->estimated_budget,
+            'actual_expenditure' =>  $request->actual_expenditure,
         ]);
     
         // Return the created project as JSON
@@ -48,6 +52,8 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
+            'estimated_budget' => 'required|numeric',
+            'actual_expenditure' => 'required|numeric',
         ]);
 
         // Find the project by ID
@@ -57,6 +63,8 @@ class ProjectController extends Controller
         $project->update([
             'name' => $request->name,  // Update the 'name' field with 'title'
             'description' => $request->description,
+            'estimated_budget' =>  $request->estimated_budget,
+            'actual_expenditure' =>  $request->actual_expenditure,
         ]);
 
         // Return the updated project as JSON
@@ -73,4 +81,19 @@ class ProjectController extends Controller
         // Return a success message
         return response()->json(['message' => 'Project deleted successfully']);
     }
+
+    public function updateBudget(Request $request, $id)
+{
+    $project = Project::findOrFail($id);
+
+    $validated = $request->validate([
+        'estimated_budget' => 'nullable|numeric',
+        'actual_expenditure' => 'nullable|numeric',
+    ]);
+
+    $project->update($validated);
+
+    return response()->json($project);
+}
+
 }
