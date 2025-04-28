@@ -35,28 +35,27 @@ export default function ProjectDetailsPage() {
       <p className={Styles.text}>{project.name}</p>
 
       <label className={Styles.label}>Description:</label>
-      <p className={Styles.text}>{project.description}</p>
+      <p className={Styles.text}>{project.description || "No description provided."}</p>
 
-      {/* Task List */}
-      <label className={Styles.label}>Tasks:</label>
-      <div className={Styles.taskList}>
-        {project.tasks?.length > 0 ? (
-          project.tasks.map((task) => (
-            <div key={task.id} className={Styles.taskCard}>
-              <p className={Styles.taskTitle}>Title: {task.title}</p>
-              <p>Status: {task.status}</p>
-              <p>Priority: {task.priority}</p>
-            </div>
-          ))
-        ) : (
-          <p className={Styles.text}>No tasks available.</p>
-        )}
-      </div>
+      <label className={Styles.label}>Estimated Budget:</label> {/* NEW */}
+      <p className={Styles.text}>
+        {project.estimated_budget !== undefined ? `₱${project.estimated_budget.toLocaleString()}` : "Not specified"}
+      </p>
+
+      <label className={Styles.label}>Actual Expenditure:</label> {/* NEW */}
+      <p className={Styles.text}>
+        {project.actual_expenditure !== undefined ? `₱${project.actual_expenditure.toLocaleString()}` : "Not specified"}
+      </p>
 
       {/* Buttons */}
       <div className={Styles.buttonGroup}>
-      <Buttons name="Back" onClick={handleBack} className={Styles.projectButton} />
+        <Buttons 
+          name="Back" 
+          onClick={handleBack} 
+          className={Styles.projectButton} 
+        />
       </div>
     </section>
   );
 }
+

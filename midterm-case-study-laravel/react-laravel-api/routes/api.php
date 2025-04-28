@@ -32,6 +32,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+// API Routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/projects/{project}/tasks', [TaskController::class, 'store']);
+    Route::get('/projects/{project}/tasks', [TaskController::class, 'getTasksForProject']);
+});
+
 // Logout Route
 Route::post('/logout', function () {
     Auth::logout();

@@ -6,8 +6,8 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Not Started");
   const [priority, setPriority] = useState("Low");
-  const [assignedUser, setAssignedUser] = useState(""); // New state for selected user
-  const [users, setUsers] = useState([]); // State to store the list of users
+  const [assignedUser, setAssignedUser] = useState("");
+  const [users, setUsers] = useState([]);
 
   // Fetch the list of users when the component mounts
   useEffect(() => {
@@ -18,7 +18,7 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
         },
       })
       .then((response) => {
-        setUsers(response.data); // Set users from the API response
+        setUsers(response.data);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -33,22 +33,22 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
       status,
       priority,
       project_id: projectId,
-      assigned_to: assignedUser, // Include the user ID here
+      assigned_to: assignedUser,
     };
 
     axios
       .post("http://127.0.0.1:8000/api/tasks", taskData, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("authorization-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
         },
       })
       .then((response) => {
         console.log("Task Created:", response.data);
         onTaskCreated(); // Notify parent to refresh tasks
-        setTitle(""); // Clear the form
+        setTitle("");
         setStatus("Not Started");
         setPriority("Low");
-        setAssignedUser(""); // Reset assigned user
+        setAssignedUser("");
       })
       .catch((error) => {
         console.error("Error creating task:", error);
@@ -98,7 +98,6 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
         </select>
       </div>
 
-      {/* Add user assignment dropdown */}
       <div className={Styles.formGroup}>
         <label htmlFor="assignedUser">Assign to</label>
         <select
@@ -116,7 +115,9 @@ const CreateTaskForm = ({ projectId, onTaskCreated }) => {
         </select>
       </div>
 
-      <button type="submit" className={Styles.submitButton}>Create Task</button>
+      <button type="submit" className={Styles.submitButton}>
+        Create Task
+      </button>
     </form>
   );
 };

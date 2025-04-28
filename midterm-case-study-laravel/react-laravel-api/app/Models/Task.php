@@ -17,7 +17,9 @@ class Task extends Model
         'description',
         'status',
         'priority',
-        'assigned_to', // user_id
+        'assigned_to', 
+        'estimated_time', 
+        'time_spent'// user_id
     ];
 
     // Each task belongs to one project

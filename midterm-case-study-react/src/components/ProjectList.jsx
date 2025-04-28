@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Styles from "../css modules/ProjectListComponents.module.css"; // Import the CSS module
-import CreateTaskForm from "./CreateTaskForm"; // Import the task creation form
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
+  const [totalBudget, setTotalBudget] = useState(0); // Initialize total budget state
 
   useEffect(() => {
     // Fetch projects along with tasks
@@ -13,7 +13,14 @@ const ProjectList = () => {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("authorization-token")}`,
       }
-    }).then(res => setProjects(res.data));
+    }).then(res => {
+      setProjects(res.data);
+      // Calculate the sum of all estimated budgets
+      const total = res.data.reduce((sum, project) => {
+        return sum + (parseFloat(project.estimated_budget) || 0); // Ensuring that it's a valid number
+      }, 0);
+      setTotalBudget(total); // Update the total budget state
+    }).catch(error => console.error("Error fetching projects:", error));
   }, []);
 
   const handleDeleteProject = (projectId) => {
@@ -26,9 +33,9 @@ const ProjectList = () => {
             Authorization: `Bearer ${localStorage.getItem("authorization-token")}`,
           },
         })
-        .then((response) => {
-          console.log("Project Deleted:", response.data);
-          setProjects(projects.filter((p) => p.id !== projectId)); // Remove the deleted project from the list
+        .then(() => {
+          // Filter out the deleted project from the state
+          setProjects(projects.filter((p) => p.id !== projectId));
         })
         .catch((error) => {
           console.error("Error deleting project:", error);
@@ -37,26 +44,21 @@ const ProjectList = () => {
     }
   };
 
-  // Handle task creation for a specific project
-  const handleTaskCreated = (projectId) => {
-    // Refresh the project list with updated tasks after a task is created
-    axios.get("http://127.0.0.1:8000/api/projects", {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("authorization-token")}`,
-      }
-    }).then(res => setProjects(res.data));
-  };
-
   return (
     <div className={Styles.container}> {/* Apply the container style */}
       <h2 className={Styles.heading}>All Projects</h2> {/* Apply heading style */}
-    
+      
+      {/* Total Budget Display */}
+      <div className={Styles.totalBudget}>
+        <h3>Total Estimated Budget: ${totalBudget.toFixed(2)}</h3> {/* Displaying the sum of estimated budgets */}
+      </div>
+
       <table className={Styles.projectTable}> {/* Apply table style */}
         <thead>
           <tr>
             <th>Project Name</th>
+            <th>Description</th> {/* Keep the Description column */}
             <th>Actions</th>
-            <th>Tasks</th> {/* Add a column for tasks */}
           </tr>
         </thead>
         <tbody>
@@ -64,6 +66,9 @@ const ProjectList = () => {
             <tr key={p.id} className={Styles.projectItem}> {/* Apply project-item style */}
               <td>
                 <Link to={`/projects/${p.id}`} className={Styles.projectLink}>{p.name}</Link> {/* View the project */}
+              </td>
+              <td>
+                <p className={Styles.projectDescription}>{p.description}</p> {/* Display project description */}
               </td>
               <td>
                 <div className={Styles.actionButtons}>
@@ -76,23 +81,6 @@ const ProjectList = () => {
                     Delete
                   </Link> {/* Delete link */}
                 </div>
-              </td>
-              <td>
-                <ul>
-                  {p.tasks && p.tasks.length > 0 ? (
-                    p.tasks.map((task) => (
-                      <li key={task.id}>
-                        <div>{task.title}</div>
-                        <div>Status: {task.status}</div>
-                        <div>Priority: {task.priority}</div>
-                      </li>
-                    ))
-                  ) : (
-                    <div>No tasks assigned yet</div>
-                  )}
-                </ul>
-                {/* Create Task Form */}
-                <CreateTaskForm projectId={p.id} onTaskCreated={() => handleTaskCreated(p.id)} />
               </td>
             </tr>
           ))}

@@ -9,6 +9,7 @@ import CreateProjectPage from "./pages/CreateProjectPage";
 import DeleteProjectPage from "./pages/DeleteProjectPage";
 import EditProjectPage from "./pages/EditProjectPage";
 import ProjectDetailsPage from "./pages/ProjectDetailsPage";
+import AssignTaskPage from "./pages/AssignTaskPage";
 
 export default function App() {
   // Define the handleProjectCreated callback
@@ -21,6 +22,7 @@ export default function App() {
     console.log(`Project with ID ${projectId} deleted`);
   };
 
+
   return (
     <div className="App">
       <Routes>
@@ -29,6 +31,10 @@ export default function App() {
         <Route path="/ViewProjectPage" element={<ViewProjectPage />} />
         <Route path="/create-project" element={<CreateProjectPage onProjectCreated={handleProjectCreated} />} />
         <Route path="/projects/:projectId" element={<ProjectDetailsPage />} /> {/* Add this route */}
+        <Route path="/AssignTaskPage" element={<AssignTaskPage />} />
+
+
+
         <Route
           path="/delete-project/:id"
           element={<DeleteProjectPage onProjectDeleted={handleProjectDeleted} />}

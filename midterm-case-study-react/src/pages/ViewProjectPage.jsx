@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Style from "../css modules/ProjectDashboard.module.css";
 // FontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faChartBar, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faChartBar, faSignOutAlt, faTasks, faFolderOpen } from "@fortawesome/free-solid-svg-icons";
 // Components
 import ProjectList from "../components/ProjectList.jsx";
 
@@ -50,12 +50,16 @@ export default function ViewProjectPage() {
           <li onClick={() => handleNavigation("/create-project")}>
             <FontAwesomeIcon icon={faPlus} /> Create Project
           </li>
+          <li onClick={() => handleNavigation("/AssignTaskPage")}>
+            <FontAwesomeIcon icon={faTasks} /> Assign Tasks
+          </li>
           <li onClick={() => handleNavigation("/track-progress")}>
             <FontAwesomeIcon icon={faChartBar} /> Track Progress
           </li>
           <li onClick={() => handleNavigation("/reports")}>
             <FontAwesomeIcon icon={faChartBar} /> View Reports
           </li>
+          
           <li onClick={handleLogout}>
             <FontAwesomeIcon icon={faSignOutAlt} /> Log Out
           </li>

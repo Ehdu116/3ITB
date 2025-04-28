@@ -16,7 +16,8 @@ return new class extends Migration {
         $table->text('description')->nullable();
         $table->enum('status', ['Not Started', 'In Progress', 'Completed'])->default('Not Started');
         $table->enum('priority', ['High', 'Medium', 'Low'])->default('Medium');
-        $table->timestamps();
+        $table->decimal('estimated_time', 8, 2)->nullable(); // Time in hours
+        $table->decimal('time_spent', 8, 2)->nullable();    // Time in hours
     });
 }
 
